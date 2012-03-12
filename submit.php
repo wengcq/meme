@@ -1,4 +1,5 @@
-<? require "imagesharing/header2.php";
+<?//nemo
+require "imagesharing/header2.php";
 //if ($uploads == 0) {
 //} else {
 //	if ($uploads == 1 && !$auth_id) {
@@ -107,7 +108,7 @@ window.title_blacklist = ["blowjob","truestory","truestorybro","youknowitstrue",
 
 
 <div class="content form_photo">
-<?
+<?//nemo
 if (strtoupper($_GET['type']) == "URL") {
 	echo '<form class="modal" name="newupload" id="newupload1" method="post"
 			action="imagesharing/inc/uploaderurl.php" enctype="multipart/form-data"
@@ -125,7 +126,7 @@ if ($config[AcceptTerms] == "1") {
 		<div class="field">
 			<label>
 				<h4>Pic File</h4>
-<?
+<?//nemo
 if (strtoupper($_GET['type']) == "URL") {
 	echo '<input type="text" class="text " size="50" name="thefile0" />';
 } else {
@@ -138,11 +139,13 @@ if (strtoupper($_GET['type']) == "URL") {
 			</label>
 			<p class="info">
 								<input type="hidden" name="file" value="1"/>
-<?if (strtoupper($_GET['type']) == "URL") {
+<?//nemo
+if (strtoupper($_GET['type']) == "URL") {
 	echo '<a class="post_link" href="submit.php?type=file"><strong>上传本地图片。</strong></a>';
 } else {
 	echo '<a class="post_link" href="submit.php?type=url"><strong>貼上圖片網址。</strong></a>';
-}?>
+}
+?>
 								JPEG, GIF or PNG. Max size: 2MB.			</p>
 		</div>
 
