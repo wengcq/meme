@@ -2,59 +2,65 @@
 <?php require "imagesharing/header2.php";
 $search_query = check_input($_REQUEST['query']);
 
-$totalcount = $config[GalleryPhotoNo];
+$totalcount=$config[GalleryPhotoNo];
 $limit = check_input($_REQUEST['limit']);
 if ($limit == "") {
-	$limit = $config[GalleryPhotoPerPage];
+$limit = $config[GalleryPhotoPerPage];
 }
 $start = check_input($_REQUEST['start']);
 if ($start == "") {
-	$start = 0;
+$start = 0;
 }
 
-$displaystart = $start +1;
+$displaystart = $start + 1;
 $displayend = ($start + $limit > $totalcount ? $totalcount : $start + $limit);
 if ($displayend == $totalcount) {
-	$nextset = 0;
+$nextset = 0;
 } else {
-	$nextset = ($totalcount - $displayend > $limit ? $limit : ($totalcount - $displayend));
+$nextset = ($totalcount - $displayend > $limit ? $limit: ($totalcount - $displayend));
 }
 
 $sort = check_input($_REQUEST['sort']);
 if ($sort == "") {
-	$sort = "added";
+$sort = "added";
 }
 
-if ($search_query != "") {
-	$query = "select i.filename as filename, i.tn_filename as tn_filename, i.filepath as filepath, i.added as add_dt, i.ip as ip, i.filesize as filesize, sum(ih.kb) as bandwidth, count( ih.filename ) as ctr from images i left outer join imagehits ih on i.filename = ih.filename where i.prv='0' and i.filename LIKE '%" . $search_query . "%' group by filename order by " . $sort . " desc limit " . $start . "," . $limit;
-} else {
-	$query = "select i.filename as filename, i.tn_filename as tn_filename, i.filepath as filepath, i.added as add_dt, i.ip as ip, i.filesize as filesize, sum(ih.kb) as bandwidth, count( ih.filename ) as ctr from images i left outer join imagehits ih on i.filename = ih.filename where i.prv=0 group by filename order by " . $sort . " desc limit " . $start . "," . $limit;
+if ($search_query!="") {
+$query = "select i.filename as filename, i.tn_filename as tn_filename, i.filepath as filepath, i.added as add_dt, i.ip as ip, i.filesize as filesize, sum(ih.kb) as bandwidth, count( ih.filename ) as ctr from images i left outer join imagehits ih on i.filename = ih.filename where i.prv='0' and i.filename LIKE '%" . $search_query . "%' group by filename order by " . $sort . " desc limit " . $start . "," . $limit;
+
 }
 
+else {
+
+$query = "select i.filename as filename, i.tn_filename as tn_filename, i.filepath as filepath, i.added as add_dt, i.ip as ip, i.filesize as filesize, sum(ih.kb) as bandwidth, count( ih.filename ) as ctr from images i left outer join imagehits ih on i.filename = ih.filename where i.prv=0 group by filename order by " . $sort . " desc limit " . $start . "," . $limit;
+}
+echo $query;
 $result = mysql_query($query) or die("Query failed.");
 
 $query_ti = "SELECT * from images where prv=0";
 $result_ti = mysql_query($query_ti) or die("query_ti failed");
 $totalimages = mysql_num_rows($result_ti);
 
-if ($totalcount > $totalimages) {
-	$totallimit = $totalimages;
-} else {
-	$totallimit = $totalcount;
+if ($totalcount>$totalimages) {
+$totallimit=$totalimages;
 }
 
-if ($displayend > $totalimages) {
-	$displaylimit = $totalimages;
-} else {
-	$displaylimit = $displayend;
+else {
+$totallimit=$totalcount; }
+
+if ($displayend>$totalimages) {
+$displaylimit=$totalimages;
 }
 
-if ($search_query != "") {
-	$totallimit = mysql_num_rows($result);
-	if ($displaylimit > $totallimit) {
-		$displaylimit = $totallimit;
-	}
+else {
+$displaylimit=$displayend; }
+
+if ($search_query!="") {
+$totallimit=mysql_num_rows($result);
+if ($displaylimit>$totallimit){$displaylimit=$totallimit;}
 }
+
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -76,7 +82,7 @@ if ($search_query != "") {
 
 <meta name="title" content="9GAG - Just for Fun!" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<meta name="keywords" content="9gag,jokes,interesting, cool,fun collection, fun portfolio, admire,fun,humor,humour,just for fun,缁楁垵婀�,缁楁垹澧�,閹肩偟鐟�,閹肩�廰g,缁楁垼鈹�"/>
+<meta name="keywords" content="9gag,jokes,interesting, cool,fun collection, fun portfolio, admire,fun,humor,humour,just for fun,ç¬‘åœ–,ç¬‘ç‰‡,æ�žç¬‘,æ�žgag,ç¬‘è©±"/>
 <meta name="description" content="9GAG is the easiest way to have fun!"/>
 
 <meta property="og:title" content="Just for Fun!"/>
@@ -95,24 +101,24 @@ if ($search_query != "") {
 
 
 <link rel="alternate" href="rss/site/feed.rss" type="application/rss+xml" title="9GAG site feed" />
-<link rel="stylesheet" href="./d24w6bsrhbeh9d.cloudfront.net/css/screen-v5.3.9.css" media="screen,projection" type="text/css" />
-<link rel="stylesheet" href="./d24w6bsrhbeh9d.cloudfront.net/css/lang/zh_CN.css" media="screen,projection" type="text/css" />
+<link rel="stylesheet" href="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/css/screen-v5.3.9.css" media="screen,projection" type="text/css" />
+<link rel="stylesheet" href="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/css/lang/zh_CN.css" media="screen,projection" type="text/css" />
 
 
 
-<link rel="shortcut icon" href="./d24w6bsrhbeh9d.cloudfront.net/img/favicon_v2.png" />
-<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="./d24w6bsrhbeh9d.cloudfront.net/img/icon57.png" />
-<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 132dpi)" href="./d24w6bsrhbeh9d.cloudfront.net/img/icon72.png" />
-<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="./d24w6bsrhbeh9d.cloudfront.net/img/icon114.png" />
+<link rel="shortcut icon" href="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/img/favicon_v2.png" />
+<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/img/icon57.png" />
+<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 132dpi)" href="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/img/icon72.png" />
+<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/img/icon114.png" />
 
 
-<script type="text/javascript" src="./d24w6bsrhbeh9d.cloudfront.net/js/mootools/mootools-1.4.1-yui-compressed.js"></script>
+<script type="text/javascript" src="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/js/mootools/mootools-1.4.1-yui-compressed.js"></script>
 
 
 
 
-<script type="text/javascript" src="./d24w6bsrhbeh9d.cloudfront.net/js/Libraries-v1.3.js"></script>
-<script type="text/javascript" src="./d24w6bsrhbeh9d.cloudfront.net/js/gag.min-v2.5.3.js"></script>
+<script type="text/javascript" src="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/js/Libraries-v1.3.js"></script>
+<script type="text/javascript" src="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/js/gag.min-v2.5.3.js"></script>
 
 
 
@@ -144,7 +150,7 @@ function myWindow(location, address, gaCategory, gaAction) { _gaq.push(['_trackE
 function twttrWindow(location, address, gaCategory, gaAction) { _gaq.push(['_trackEvent', gaCategory, gaAction,  address, 1]); var w = 640; var h = 460; var sTop = window.screen.height/2-(h/2); var sLeft = window.screen.width/2-(w/2); var sharer = window.open(address, "Share on Twitter", "status=1,height="+h+",width="+w+",top="+sTop+",left="+sLeft+",resizable=0"); }
 </script>
 
-<script type='text/javascript' src='./partner.googleadservices.com/gampad/google_service.js'> </script>
+<script type='text/javascript' src='./9gag_static/partner.googleadservices.com/gampad/google_service.js'> </script>
 <script type='text/javascript'>
 try {
 GS_googleAddAdSenseService("ca-pub-0268871989845966");
@@ -185,7 +191,7 @@ GA_googleUseIframeRendering();
 
 										<li><a href="fast.php" onclick="_gaq.push(['_trackEvent', 'Lab', 'Clicked', 'Go', 1]); ">Fast</a></li>
 
-										<li><a class="add-post " href="submit_url.php" onclick="_gaq.push(['_trackEvent', 'New-Post', 'Clicked', 'Headbar', 1]);">Upload</a></li>
+										<li><a class="add-post " href="submit.php?type=url" onclick="_gaq.push(['_trackEvent', 'New-Post', 'Clicked', 'Headbar', 1]);">Upload</a></li>
 
 
 				</ul>
@@ -195,7 +201,7 @@ GA_googleUseIframeRendering();
 
 
 				<li id="headbar-signup-button">
-												<a class="signup-button green" href="signup.php" label="Header" onclick=" rmt('./goo.gl/4L7Xz@a=965');">Y U No Signup?!</a>
+												<a class="signup-button green" href="signup.php" label="Header" onclick=" rmt('./9gag_static/goo.gl/4L7Xz@a=965');">Y U No Signup?!</a>
 											</li>
 
 
@@ -219,7 +225,7 @@ GA_googleUseIframeRendering();
 			<div class="filter-bar ">
 				<ul class="content-type">
 										<li> <a class="current" href="hot.php"><strong>Hot</strong></a></li>
-					<li> <a class="" href="trending.php"><strong>Trending</strong></a></li>
+					<li> <a class="" href="trending.php"><strong>trending</strong></a></li>
 					<li> <a class="" href="vote.php"><strong>Vote</strong></a></li>
 				</ul>
 <a class="safe-mode-toggle " href="pref/safe-browse@enable=0&url=_252F&nsfw=1">&nbsp;</a>
@@ -238,11 +244,10 @@ GA_googleUseIframeRendering();
 	<ul id="entry-list-ul" class="col-1">
 
 <?
-
-$ctr = 0;
-while ($line = mysql_fetch_array($result)) {
-	$ctr++;
-	$short_name = substr($line[filename], 0, 30);
+                    $ctr = 0;
+                    while ($line = mysql_fetch_array($result)) {
+						$ctr++;
+						$short_name = substr($line[filename], 0, 30);
 ?>
 
 <li class=" entry-item" data-url="http://9gag.com/gag/2644365" data-text="I&#039;ll just tell him I have a nose fetish." gagId="2644365" itemType="list" id="entry-2644365">
@@ -253,11 +258,11 @@ while ($line = mysql_fetch_array($result)) {
 		<!--<a href="imagesharing/view2.php?filename=<?=$line[filename]?>">-->
 		<!--<a href="gag/2644365"  target="_blank" >-->
 		<!--
-			src="./d24w6bsrhbeh9d.cloudfront.net/photo/2644365_460s.jpg"
+			src="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/photo/2644365_460s.jpg"
 
 			src="<?$file_path.$file?>"
 		-->
-		<a href="view.php?filename=<?=$line[filename]?>">
+		<a href="detail.php?filename=<?=$line[filename]?>">
 		<img src="<?=$line[filepath].$line[filename] ?>" alt="I&#039;ll just tell him I have a nose fetish." border="0" style="max-width:450px"/>
 		</a>
 	</div>
@@ -270,7 +275,7 @@ while ($line = mysql_fetch_array($result)) {
 		<h1><a href="gag/2644365"  target="_blank" >I&#039;ll just tell him I have a nose fetish.</a></h1>
 	<h4>
 		<a href="klopezq_93">klopezq_93</a>
-		<p>20 鐏忓繑妾崜锟�</p>
+		<p>20 å°�æ™‚å‰�</p>
 	</h4>
 
 
@@ -301,9 +306,9 @@ while ($line = mysql_fetch_array($result)) {
 
 
 <span id="list-share-weibo-2644365">
-<iframe allowTransparency="true" frameborder="0" scrolling="no" src="./hits.sinajs.cn/A1/weiboshare.html@url=http_253A_252F_252F9gag.com_252Fgag_252F2644365&type=2&count=1&appkey=494936745&title=I%26_2523039_253B032FCC07D5" width="80" height="24"></iframe></span>
+<iframe allowTransparency="true" frameborder="0" scrolling="no" src="./9gag_static/hits.sinajs.cn/A1/weiboshare.html@url=http_253A_252F_252F9gag.com_252Fgag_252F2644365&type=2&count=1&appkey=494936745&title=I%26_2523039_253B032FCC07D5" width="80" height="24"></iframe></span>
 
-<div class="facebook_share_size_Small" onclick="myWindow('Facebook Share', './www.facebook.com/sharer/sharer.php@u=http_253A_252F_252F9gag.com_252Fgag_252F2644365', 'Facebook-Share-List', 'Clicked');">
+<div class="facebook_share_size_Small" onclick="myWindow('Facebook Share', './9gag_static/www.facebook.com/sharer/sharer.php@u=http_253A_252F_252F9gag.com_252Fgag_252F2644365', 'Facebook-Share-List', 'Clicked');">
     <span class="FacebookConnectButton FacebookConnectButton_Small">
         <span class="FacebookConnectButton_Text">Share</span>
     </span>
@@ -316,7 +321,7 @@ while ($line = mysql_fetch_array($result)) {
 
 </ul>
 </div>
-<a class="fix" href="./https@9gag.com/login@ref=_252Ffix_252F2644365">Fix this post</a>
+<a class="fix" href="./9gag_static/https@9gag.com/login@ref=_252Ffix_252F2644365">Fix this post</a>
 
 
 
@@ -334,15 +339,13 @@ while ($line = mysql_fetch_array($result)) {
 
 
 <?
-
-}
+					}
 ?>
 
         <?
-
-mysql_free_result($result);
-mysql_close($link);
-?>
+        mysql_free_result($result);
+        mysql_close($link);
+        ?>
 
 
 
@@ -375,10 +378,10 @@ mysql_close($link);
 
 
 
-				<script type="text/javascript">rmt('./goo.gl/ktrVc@a=189');</script>
+				<script type="text/javascript">rmt('./9gag_static/goo.gl/ktrVc@a=189');</script>
 
 	<div id="special-button">
-				<a class="special-btn green" href="signup.php" label="Sidebar" onclick="rmt('./goo.gl/4L7Xz@a=325');">Y U No Signup?!</a>
+				<a class="special-btn green" href="signup.php" label="Sidebar" onclick="rmt('./9gag_static/goo.gl/4L7Xz@a=325');">Y U No Signup?!</a>
 			</div>
 
 
@@ -400,7 +403,7 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Top-Right-300x250", 300, 2
 
 
 		 <div class="weibo-follow">
-	 <iframe width="136" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" frameborder="No" border="0" src="./widget.weibo.com/relationship/followbutton.php@language=zh_cn&width=136&height=24&uid=1727916553&style=2&btn=red&dpc=1"></iframe>	 </div>
+	 <iframe width="136" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" frameborder="No" border="0" src="./9gag_static/widget.weibo.com/relationship/followbutton.php@language=zh_cn&width=136&height=24&uid=1727916553&style=2&btn=red&dpc=1"></iframe>	 </div>
 
 	<div class="google-plus">
 			<p>Recommend on Google</p>
@@ -411,17 +414,17 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Top-Right-300x250", 300, 2
 
 		<div id="top-gag-stay">
 							<div class="s-300">
-<iframe id="sidebar-ads2" src="./d24w6bsrhbeh9d.cloudfront.net/static/ads/sidebar-ads2.html" scrolling="no" height="250px" width="320px" marginheight="0" marginwidth="0" frameborder="0"></iframe>
+<iframe id="sidebar-ads2" src="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/static/ads/sidebar-ads2.html" scrolling="no" height="250px" width="320px" marginheight="0" marginwidth="0" frameborder="0"></iframe>
 </div>
 
 
 
 <div class="popular-block">
-	<h3>鐠囨碍鍓伴幒銊ょ矙</h3>
+	<h3>è¯šæ„�æŽ¨ä»‹</h3>
 	<ol>
 						<a class="wrap" href="gag/2659799@ref=discuss"  onclick="GAG.GA.track('RelatedContent', 'Clicked-PopularPost', 'gag/2659799', 1)" >
 <li>
-						<img src="./d24w6bsrhbeh9d.cloudfront.net/photo/2659799_220x145.jpg" alt="Hard to unsee it.." />
+						<img src="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/photo/2659799_220x145.jpg" alt="Hard to unsee it.." />
 						<h4>Hard to unsee it..</h4>
 		<p class="meta">
 			<span class="comment">
@@ -434,7 +437,7 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Top-Right-300x250", 300, 2
 
 							<a class="wrap" href="gag/2659791@ref=discuss"  onclick="GAG.GA.track('RelatedContent', 'Clicked-PopularPost', 'gag/2659791', 1)" >
 <li>
-						<img src="./d24w6bsrhbeh9d.cloudfront.net/photo/2659791_220x145.jpg" alt="How I feel.." />
+						<img src="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/photo/2659791_220x145.jpg" alt="How I feel.." />
 						<h4>How I feel..</h4>
 		<p class="meta">
 			<span class="comment">
@@ -447,7 +450,7 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Top-Right-300x250", 300, 2
 
 							<a class="wrap" href="gag/2659832@ref=discuss"  onclick="GAG.GA.track('RelatedContent', 'Clicked-PopularPost', 'gag/2659832', 1)" >
 <li>
-				<img src="./d24w6bsrhbeh9d.cloudfront.net/img/nsfw-thumbnail.jpg" alt="NSFW" />
+				<img src="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/img/nsfw-thumbnail.jpg" alt="NSFW" />
 				<h4>When you see it</h4>
 		<p class="meta">
 			<span class="comment">
@@ -464,7 +467,7 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Top-Right-300x250", 300, 2
 
 <div class="message-block">
 	<h3>Hey..</h3>
-	<p>Press <b>Ctrl+D</b> or <b>閳憋拷+D</b> (if you're using Mac) to bookmark 9GAG now!</p>
+	<p>Press <b>Ctrl+D</b> or <b>âŒ˜+D</b> (if you're using Mac) to bookmark 9GAG now!</p>
 </div>
 
 
@@ -474,16 +477,16 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Top-Right-300x250", 300, 2
 
 <ul class="info footer-left">
 	<li>9GAG &copy; 2011</li>
-	<li>璺�<a class="badge-language-selector" href="javascript:void(0);">&#31777;&#39636;&#20013;&#25991; ( zh_CN )</a></li>
+	<li>Â·<a class="badge-language-selector" href="javascript:void(0);">&#31777;&#39636;&#20013;&#25991; ( zh_CN )</a></li>
 </ul><!--end ul.footer-left-->
 
 <ul class="info footer-right">
-	<li><a href="about">閸忓厖绨�</a></li>
-	<li>璺�<a href="rules">9 濮婃繆顪撻崜锟�</a></li>
-	<li>璺�<a href="faq">鐢瓕顬�闂傤噣顣�</a></li>
-	<li>璺�<a href="tos">閺夆剝顑�</a></li>
-	<li>璺�<a href="privacy">缁変線娈�</a></li>
-	<li>璺�<a href="contact">閼辨梻绮�</a></li>
+	<li><a href="about">å…³äºŽ</a></li>
+	<li>Â·<a href="rules">9 æ¢�è¦�å‰‡</a></li>
+	<li>Â·<a href="faq">å¸¸è§�é—®é¢˜</a></li>
+	<li>Â·<a href="tos">æ�¡æ¬¾</a></li>
+	<li>Â·<a href="privacy">ç§�éš�</a></li>
+	<li>Â·<a href="contact">è�”ç»œ</a></li>
 </ul><!--end ul.footer-right-->
 
 </div>
@@ -529,7 +532,7 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Banner-bottom-728x90", 728
 	<div class="content">
  	   <a href="javascript:void(0);" class="close-btn"></a>
 		<form id="form-modal-report" class="modal" action="" onsubmit="return false;">
-			<h3>閸ョ偛鐗�</h3>
+			<h3>å›žå ±</h3>
 			<h4>Why are you reporting this post?</h4>
 			<input id="report_entry_id" type="hidden" name="entryId" value=""/>
 			<div class="field">
@@ -545,7 +548,7 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Banner-bottom-728x90", 728
 	</div>
 	<div class="actions">
 		<ul class="buttons">
-			<li><a class="cancel" href="javascript:void(0);">閸欐牗绉�</a></li>
+			<li><a class="cancel" href="javascript:void(0);">å�–æ¶ˆ</a></li>
 			<li><a class="button submit-button" href="javascript:void(0);">Send</a></li>
 			<li class="hide"><a class="button loading" href="javascript:void(0);"></a></li>
 		</ul>
@@ -602,7 +605,7 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Banner-bottom-728x90", 728
 				</label>
 
 				<label for="lang-ru">
-				<input id="lang-ru" class="" type="radio" name="lang-code" value="ru" ></input>琚瑜嬭娉绘噲娉�
+				<input id="lang-ru" class="" type="radio" name="lang-code" value="ru" ></input>Ð ÑƒÑ�Ñ�ÐºÐ¸Ð¹
 				</label>
 
 				<label for="lang-tr">
@@ -615,8 +618,8 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Banner-bottom-728x90", 728
 
 	<div class="actions">
 		<ul class="buttons">
-			<li><a class="cancel badge-language-close" href="javascript:void(0);">閸欐牗绉�</a></li>
-			<li><a id="language-submit-button" class="button submit-button" href="javascript:void(0);">閸庢彃鐡�</a></li>
+			<li><a class="cancel badge-language-close" href="javascript:void(0);">å�–æ¶ˆ</a></li>
+			<li><a id="language-submit-button" class="button submit-button" href="javascript:void(0);">å„²å­˜</a></li>
 		</ul>
 	</div>
 </div><!--end div#modal-language-->
@@ -655,13 +658,13 @@ GA_googleFillSlotWithSize("ca-pub-0268871989845966", "Banner-bottom-728x90", 728
 <script type="text/javascript">
 (function() {
  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
- po.src = './https@apis.google.com/js/plusone.js';
+ po.src = './9gag_static/https@apis.google.com/js/plusone.js';
  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
  })();
 </script>
 <div id="fb-root"></div>
-<script src="./connect.facebook.net/en_US/all.js" type="text/javascript"></script>
-<script src="./d24w6bsrhbeh9d.cloudfront.net/js/FB.Share.1.0.2.js" type="text/javascript"></script>
+<script src="./9gag_static/connect.facebook.net/en_US/all.js" type="text/javascript"></script>
+<script src="./9gag_static/d24w6bsrhbeh9d.cloudfront.net/js/FB.Share.1.0.2.js" type="text/javascript"></script>
 
 
 <script type="text/javascript">
@@ -693,7 +696,7 @@ var _qevents = _qevents || [];
 
 (function() {
 var elem = document.createElement('script');
-elem.src = (document.location.protocol == "https:" ? "./https@secure/" : "./edge/") + ".quantserve.com/quant.js";
+elem.src = (document.location.protocol == "https:" ? "./9gag_static/https@secure/" : "./9gag_static/edge/") + ".quantserve.com/quant.js";
 elem.async = true;
 elem.type = "text/javascript";
 var scpt = document.getElementsByTagName('script')[0];
@@ -707,7 +710,7 @@ qacct:"p-f8Bn5MbvAQbXQ"
 
 <noscript>
 <div style="display:none;">
-<img src="./pixel.quantserve.com/pixel/p-f8Bn5MbvAQbXQ.gif" border="0" height="1" width="1" alt="Quantcast"/>
+<img src="./9gag_static/pixel.quantserve.com/pixel/p-f8Bn5MbvAQbXQ.gif" border="0" height="1" width="1" alt="Quantcast"/>
 </div>
 </noscript>
 <!-- End Quantcast tag -->

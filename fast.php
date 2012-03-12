@@ -1,93 +1,154 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
 <head>
-<title>9GAG - Fast</title>
-
-<meta name="title" content="9GAG" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<meta name="keywords" content="jokes,interesting, cool,fun collection, fun portfolio, admire,fun,humor,humour,just for fun,9gag,绗戝湒,绗戠墖,鎼炵瑧,鎼瀏ag,绗戣┍"/>
-<meta name="description" content="9GAG is the easiest way to have fun!"/>
-
-<meta name="viewport" content="width=device-width" />
-<meta name="verify-v1" content="vvFhqhXLAn+191Kl3iZjjHHY6wzkyGG0CJqGMoFIZEg=" />
-
-<link rel="shortcut icon" href="./d24w6bsrhbeh9d.cloudfront.net/img/favicon_v2.png" />
-<link href='./fonts.googleapis.com/css@family=Varela+Round&v2' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="./d24w6bsrhbeh9d.cloudfront.net/css/fast-v1.0.7.css" media="screen,projection" type="text/css" />
-
-<script type="text/javascript" src="./ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-
-<script type="text/javascript" src="./d24w6bsrhbeh9d.cloudfront.net/js/fast.min-v1.0.7.js"></script>
-<script type="text/javascript" src="./https@apis.google.com/js/plusone.js"></script> 
-
-<!--chartbeat header--> 
-<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
-
-<!-- Google Analytics -->
+<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+<script src="lib/jquery.bxSlider.js" type="text/javascript"></script>
+ <link href="css/bx_styles.css" rel="stylesheet" type="text/css">
+</head>
 <script type="text/javascript">
+var cur_image_numbers = 0;
+var cur_image = 0;
+var show_image = 0;
+document.onkeydown=nextpage;
+function click_right()
+{
+	if( cur_image > cur_image_numbers -5 ){
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET","get_image.php",true);
+	
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				document.getElementById("image-list").innerHTML +=  make_next_html(xmlhttp.responseText,cur_image_numbers);
+				set_undisplay(cur_image-1);
+				set_display(cur_image);
+			}
+	}
+		xmlhttp.send(null);
+	}
+	if( cur_image <= cur_image_numbers-1 )
+	{
+		set_undisplay(cur_image);
+		cur_image++;
+		set_display(cur_image);
+	}
+	return false;
+}
+function click_left()
+{
+	if( cur_image == 0 )
+	{
+		set_undisplay(0);
+		cur_image = cur_image_numbers-1;
+		click_right();
+		return false;
+	}
+	set_undisplay(cur_image);
+	cur_image--;
+	set_display(cur_image);
+}
+function make_next_html(image_url,image_title)
+{
 
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-4838180-1']);
-_gaq.push(['_setDomainName', '.9gag.com']);
-_gaq.push(['_trackPageview']);
+	var images = eval('('+image_url+	')');
+	var re_url = "";
+	var i = 0;
 
-(function() {
- var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
- ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
- var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
- })();
- 
- function rmt(l) { var img = new Image(); img.src = l; document.getElementById('tmp-img').appendChild(img); }
+	for( i = 0 ; i < images.images.length; i++){
+	
+		re_url += "<div id =\"container_"+cur_image_numbers+"\" class = \"post_container\"  style=\"display:none;\">";
+		re_url += "<div class=\"_social\"> </div>";
+		re_url += "<div class=\"wrapper\">";
+		re_url += "<h2>"+images.images[i].filename+"</h2>";
+		
+		var i_ul = images.images[i].filepath+"/"+images.images[i].filename;
+		
+		re_url += "<img src = \""+i_ul+"\" onclick=\"click_right()\"/>";
+		re_url += "</div>";
+		
+		
+		
+		re_url += "<div class=\"right-comment\">";
+		re_url += "<div id=\"ad_content\">";
+		re_url += "<div>";
+		re_url += "<img src=\"+i_url+\" width=\"300px\" height=\"250px\"/>";
+		re_url += "</div>";
+		re_url += "</div>";
+		
+		re_url += "<div>";
+		re_url += "<p>This is where the comments lies<p>";
+		re_url += "</div>";
+		re_url += "</div>";
+		
+		re_url +="</div>";
+	//	alert(re_url);
+		cur_image_numbers++;
+	}
+		return re_url;
+}
+function set_display(id)
+{
+	var img = document.getElementById("container_"+id);
+	if(img)
+	{		
+		img.style.display="";
+		
+	}else{
+	}
+	return false;
+}
+function set_undisplay(id)
+{	
+	var ids = "container_"+id;
+	var img = document.getElementById(ids);
+	if(img)
+	{
+		img.style.display="none";
+		
+	}else{
+		
+	}
+	return false;
+}
+
+function nextpage(event)   
+{
+    event = event ? event : (window.event ? window.event : null);
+    if (event.keyCode==37)
+	{
+		click_left();
+	}else if (event.keyCode==39)
+	{
+		click_right();
+	}
+}   
 
 </script>
-</head>
+<body   onload="click_right()">
+
+<div id = "logo" >
+<a href="http://prenoon.com"></a>
+</div>
+<?php
+// TODO 返回常规模式的代码
+?>
 
 
-<body id="page-post" style="margin: 0pt; padding: 0pt; background: none repeat scroll 0% 0% black;">
-	<div id="fb-root"></div>
-	<script src="./connect.facebook.net/en_US/all.js"></script>
-	<input id="fb-app-id" type="hidden" value="111569915535689"></input>
-
-	<div id="tmp-img" style="display:none"></div> 
-	<div id="logo"><a href="default.htm"></a></div>
-
-	
-		<div><a id="close" href="javascript:void(0);" style="text-decoration: none;">脳 Back to normal</a></div>
-
-		<div class="left">
-			<a id="load-prev" class="fast-flip prev-post" href="javascript:void(0);"></a>
-		</div>
-		<div class="right">
-			<a id="load-next" class="fast-flip next-post" href="javascript:void(0);"></a>
-		</div>
-
-		<div>
-		<div id="block-content">
-		</div>
-	</div>
-
-		
-	
-	<div style="position:fixed;top:0px;right:0px;z-index:9999;background-color:black;width:392px;height:290px">
-		<div style="width:300px;height:250px;margin:20px 45px;padding:0px 0px;">
-			<iframe id="ads-slot" src="about:blank" style="border:none;overflow:hidden;margin:0px 0px;" scrolling="no" width="300" height="250"></iframe>
-		</div>
-	</div>
-
-	<div class="hint">Tip: Use your keyboard left and right arrow keys to navigate!</div>
-
-	<script type="text/javascript">
-		GAG = GAG || {};
-		GAG.Fast = GAG.Fast || {};
-		GAG.Fast.fastFlipList = [];
-		$(function() {
-			try {
-				FB.init({appId: '111569915535689', status: true, cookie: true, xfbml: true, oauth: true});
-			} catch (e) {
-			}
-		});
-	</script>
-
-	
+<div><a id="close" href="javascript:void(0);" style="text-decoration: none;">× 常规模式</a></div>
+<div id="block-content">
+<div class="page" id="image-list">
+</div>
+</div>
+<div class="left">
+<a class="bx-prev"  onclick="click_left()"></a>
+</div>
+<div class="right">
+<a class="bx-next"   onclick="click_right()"> </a>
+</div>
+<div class="hint">提示：用键盘-> 和 <- 查看图片</div>
 </body>
+
+
 </html>

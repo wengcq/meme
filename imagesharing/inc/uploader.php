@@ -5,10 +5,10 @@ $auth_id=$_SESSION['userid'];
 if (!$auth_id || empty($auth_id) || $auth_id==""){
 $auth_id = 0;
 }
-require_once("config.php");
-require_once("limits.php");
+require_once("config.php"); 
+require_once("limits.php"); 
 require_once("ftp.class.php");
-require_once("func.php");
+require_once("func.php"); 
 
 $link = mysql_connect($db_server, $db_user, $db_password) or die("Could not connect to the database.");
 
@@ -58,7 +58,7 @@ $query = "select * from ftp where status=1 ORDER BY RAND() limit 1";
 
 $result = mysql_query($query) or die("Query failed.");
 
-while ($row = mysql_fetch_array($result))
+while ($row = mysql_fetch_array($result)) 
 
     {
 
@@ -66,34 +66,34 @@ while ($row = mysql_fetch_array($result))
 
         $ftpid=$row['ftpid'];
 
-        $path=$row['name'];
+        $path=$row['name'];        
 
-        $url=$row['dir'];
+        $url=$row['dir'];        
 
-        $host=$row['host'];
+        $host=$row['host'];        
 
-        $user=$row['user'];
+        $user=$row['user'];        
 
-        $pass=$row['ftppass'];
+        $pass=$row['ftppass'];        
 
-    }
+    }    
 
  }
 
-// get variables for fields on upload screen
+// get variables for fields on upload screen                
 
-        $tos = $_POST['tos'];
+        $tos = $_POST['tos'];        
 
-        $prv = $_POST['prv'];
+        $prv = $_POST['prv'];        
 
                 if($prv!="1")
 
                 $prv=0;
 
-
+        
 
         $uploaderip = $_SERVER['REMOTE_ADDR'];
-
+		
         $messages="";
 
         $msg="";
@@ -113,7 +113,7 @@ while ($row = mysql_fetch_array($result))
         // check for blocked ip address
 
         if ($uploaderip != "") {
-
+      
                 $query = "select ip from blocked where ip = '$uploaderip'";
 
             $result = mysql_query($query) or die("Query failed.");
@@ -135,7 +135,7 @@ while ($row = mysql_fetch_array($result))
 
 if ($config[AcceptTerms]=="1"){
 
-if ($tos=="")
+if ($tos=="") 
 
                 {
 
@@ -144,7 +144,7 @@ if ($tos=="")
                     echo "<script language='javascript'>parent.upload('".$msg."','".$newID."','".$messages."','".$FileName."','".$FileFile."','".$FileUrl."','".$FileUrlLink."','".$FiletnUrl."','".$page_url."','".$server_url."','".$site_name."','".$HotLink."');</script>";
 
                 }
-
+				
 				}
 
 if($msg=="")
@@ -160,12 +160,12 @@ for($i=0;$i<=14;$i++)
 
         $err="0";
 
-        $thefile = $_FILES['thefile'.$i];
+        $thefile = $_FILES['thefile'.$i];        
 
+				
+				
 
-
-
-        if ($thefile['name']!="")
+        if ($thefile['name']!="") 
 
                 {
 
@@ -173,32 +173,32 @@ for($i=0;$i<=14;$i++)
         // check for valid file extension
 
 $path_parts = pathinfo($thefile['name']);
-
+		
 $file_ext = strtolower($path_parts['extension']);
-
-
-        if ($err == "0")
+			  
+		
+        if ($err == "0") 
 
                 {
 
                         // check for valid file type
 
-                        if (!in_array_nocase($file_ext, $valid_file_ext))
+                        if (!in_array_nocase($file_ext, $valid_file_ext)) 
 
                                 {
 
                                         $messages.= "|<em>".$thefile['name']."</em> is not in a valid format (".$valid_mime_types_display.")";
 
-
+                                        
 
                                         $err="1";
 
-                                }
+                                }                        
 
                 }
-
-
- if ($err == "0") {
+				
+  
+ if ($err == "0") {        
    // check for valid image file
 $imageinfo = getimagesize($_FILES['thefile0']['tmp_name']);
 
@@ -207,56 +207,56 @@ if(!eregi('image',$imageinfo['mime'])) {
 $messages.="|". "Sorry, This is not a valid image file!";
   $err="1";  } }
 
+  
 
+                if ($err == "0") 
 
-                if ($err == "0")
+                {        
 
-                {
-
-
+                    
 
                      // check for valid file size
 
-                        if ($thefile['size'] > ($max_file_size_b))
+                        if ($thefile['size'] > ($max_file_size_b)) 
 
                                 {
                 $filesizemb =($thefile['size']/1048576);
 				$filesizemb = number_format($filesizemb, 3);
-
+				
 $messages.="Sorry but this image size is ".$filesizemb." MB which is bigger than the max allowed file size of ".$max_file_size_mb." MB.";
 
-                                        $err="1";
+                                        $err="1";        
 
                                 }
 
                 }
+				
+				
+				
+				
+				
+				
 
 
-
-
-
-
-
-
-
+        
 
        // save the file, if no error messages
 
-        if ($err == "0")
+        if ($err == "0") 
 
                 {
 
-
+	
 	// replace special chars with  spaces
 	$thefile['name'] = eregi_replace("[^a-z0-9.]", " ", $thefile['name']);
-
+	
 	// Replace multiple spaces with one space
     $thefile['name'] = ereg_replace(' +', ' ', $thefile['name']);
     // Replace spaces with underscore
     $thefile['name'] = str_replace(' ', '_', $thefile['name']);
     // Replace hyphens with underscore
-    $thefile['name'] = str_replace('-', '_', $thefile['name']);
-
+    $thefile['name'] = str_replace('-', '_', $thefile['name']);  
+	
 	// Replace multiple underscores with one underscore
     $thefile['name'] = ereg_replace('_+', '_', $thefile['name']);
 
@@ -274,16 +274,16 @@ $thefile['name'] = strpos($path_parts['filename'], '.');
 
 $thefile['name'] = substr($path_parts['filename'], 0, 22); // limit file name length to 22 chars from the beginning
 
-$thefile['name'] = $thefile['name'] . "." . strtolower($path_parts['extension']);
+$thefile['name'] = $thefile['name'] . "." . strtolower($path_parts['extension']);    
 
 
     // Generate prefix to add to file name
-
+	
      $prefix = rand(99,999);
 
     // Add prefix to file name
-
-    $newFileName = $prefix . $thefile['name'];
+						
+    $newFileName = $prefix . $thefile['name'];    
 
 
 
@@ -294,7 +294,7 @@ $thefile['name'] = $thefile['name'] . "." . strtolower($path_parts['extension'])
 
                         $FileFile.="|". $server_dir . $newFileName;
 
-                        $newFile = $server_dir . $newFileName;
+                        $newFile = $server_dir . $newFileName;                        
 
                         $newFileUrl = $url . $newFileName;
 
@@ -305,9 +305,9 @@ $thefile['name'] = $thefile['name'] . "." . strtolower($path_parts['extension'])
                         $FileUrlLink.="|". $newFileName;
 
 
-						 if (in_array_nocase($file_ext, $valid_file_ext))
+						 if (in_array_nocase($file_ext, $valid_file_ext)) 
 
-
+						
                                 {
 
 $lx = 3;
@@ -324,9 +324,9 @@ $tnFileName = str_replace('.', '_tn.', $tnFileName);
 
                                         $tnFileUrl = $url . $tnFileName;
 
-                                }
+                                } 
 
-                        else
+                        else 
 
                                 {
 
@@ -342,29 +342,29 @@ $tnFileName = str_replace('.', '_tn.', $tnFileName);
 
                         $newID = "";
 
-                        if (!@copy($thefile['tmp_name'], $newFile))
+                        if (!@copy($thefile['tmp_name'], $newFile)) 
 
                                 {
 
                                         $messages.="|". "Please check site settings in admin panel and set proper value for server local path.<br><br>Also please make sure the images folder is chmodded to 0777";
 
-                                }
+                                } 
 
-                        else
+                        else 
 
                                 {
 
                                         // add to database
 
-                                        if($auth_id)
+                                        if($auth_id)        
 
                                         $uid=$auth_id;
 
                                         else $uid=0;
 
+                                        
 
-
-                                        //ftpupload($host,$user,$pass,$path."/".$dir."/".$newFileName,$newFileUrl);
+                                        //ftpupload($host,$user,$pass,$path."/".$dir."/".$newFileName,$newFileUrl);                                        
 
                                         //ftpupload
 
@@ -385,7 +385,7 @@ $tnFileName = str_replace('.', '_tn.', $tnFileName);
                                             }
 
                                         }
-
+										
 						//	unlink($newFile);
 
 
@@ -398,7 +398,7 @@ $tnFileName = str_replace('.', '_tn.', $tnFileName);
 
                                         $query = "INSERT INTO images (prv,ftpid,userid,filename, tn_filename, filepath, ip, filesize,added) VALUES ($prv,$ftpid,$uid,'$newFileName', '$tnFileName', '$url', '$uploaderip', $filesize,$date_add)";
 
-
+                                        
 
                                         mysql_query($query) or die("Database entry failed.");
 
@@ -406,13 +406,13 @@ $tnFileName = str_replace('.', '_tn.', $tnFileName);
 
                                 }
 
-
-		                         if ($file_ext == "jpeg" ||$file_ext == "jpg" || $file_ext == "png" || $file_ext == "gif" || $file_ext == "bmp")
+		 
+		                         if ($file_ext == "jpeg" ||$file_ext == "jpg" || $file_ext == "png" || $file_ext == "gif" || $file_ext == "bmp") 
 
 
                                 {
 
-                                        if ($file_ext == "jpg")
+                                        if ($file_ext == "jpg") 
 
                                                 {
 
@@ -420,31 +420,31 @@ $tnFileName = str_replace('.', '_tn.', $tnFileName);
 
                                                 }
 
-                                        if ($file_ext == "jpeg")
+                                        if ($file_ext == "jpeg") 
 
                                                 {
 
                                                         $source_id = imagecreatefromjpeg($newFile);
 
-                                                }
+                                                }												
 
-                                        elseif ($file_ext == "png")
+                                        elseif ($file_ext == "png") 
 
                                                 {
 
                                                         $source_id = imagecreatefrompng($newFile);
 
-                                                }
+                                                } 
 
-                                        elseif ($file_ext == "gif")
+                                        elseif ($file_ext == "gif") 
 
                                                 {
 
                                                         $source_id = imagecreatefromgif($newFile);
 
                                                 }
-
-										 elseif ($file_ext == "bmp")
+												
+										 elseif ($file_ext == "bmp") 
 
                                                 {
 
@@ -458,7 +458,7 @@ $tnFileName = str_replace('.', '_tn.', $tnFileName);
 
                                         // create thumb
 
-                                        if ($true_width > $thumbnail_size_max || $true_height > $thumbnail_size_max)
+                                        if ($true_width > $thumbnail_size_max || $true_height > $thumbnail_size_max) 
 
                                                 {
 
@@ -477,7 +477,7 @@ $thumb_w=$true_width/$ratio2;
  $target_id = imagecreatetruecolor($thumb_w, $thumb_h);
 
  $target_pic = imagecopyresized($target_id, $source_id, 0, 0, 0, 0, $thumb_w, $thumb_h, $true_width, $true_height);
-
+ 
 
                                                         // create a thumbnail in JPEG format
 
@@ -485,9 +485,9 @@ $thumb_w=$true_width/$ratio2;
 
                                                         imagedestroy($target_id);
 
-                                                }
+                                                } 
 
-                                        else
+                                        else 
 
                                                 {
 
@@ -525,12 +525,12 @@ $thumb_w=$true_width/$ratio2;
 
                 }
 
+                
 
+} 
+             
 
-}
-
-
-}
+} 
 
 mysql_close($link);
 
@@ -592,7 +592,7 @@ mysql_close($link);
 
         if ($file_ext == "jpg" || $file_ext == "gif" || $file_ext == "png"|| $file_ext == "jpeg" || $file_ext == "bmp") {
 
-                        $showURL5 = true;
+                        $showURL5 = true;                        
 
         }
 
@@ -642,7 +642,7 @@ else
 
                 $newfilename = randString() . substr($timestamp, strlen(timestamp) - 4, strlen(timestamp)) . $ext;
 
-
+                
 
                 return $newfilename;
 
@@ -732,7 +732,7 @@ else
 
 
 
-                                return true;
+                                return true; 
 
 
 
@@ -748,9 +748,8 @@ else
 
 
 
-        }
+        } 
 
-//nemo:
-	header( 'Location: ../../index.php' ) ;
+
 
 ?>

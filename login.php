@@ -34,11 +34,11 @@ $code_url = $o->getAuthorizeURL( WB_CALLBACK_URL );
 <link rel="shortcut icon" href="img/favicon.gif" />-->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta content="width=device-width; initial-scale=1.0;" name="viewport" />
-<link rel="stylesheet" href="./https@d24w6bsrhbeh9d.cloudfront.net/css/screen-v5.3.9.css" media="screen,projection" type="text/css" />
+<link rel="stylesheet" href="./9gag_static/https@d24w6bsrhbeh9d.cloudfront.net/css/screen-v5.3.9.css" media="screen,projection" type="text/css" />
 
-<script type="text/javascript" src="./https@d24w6bsrhbeh9d.cloudfront.net/js/mootools/mootools-1.3.1-yui-compressed.js"></script>
-<script type="text/javascript" src="./https@d24w6bsrhbeh9d.cloudfront.net/js/Libraries-v1.3.js"></script>
-<script type="text/javascript" src="./https@d24w6bsrhbeh9d.cloudfront.net/js/gag.min-v2.5.3.js"></script>
+<script type="text/javascript" src="./9gag_static/https@d24w6bsrhbeh9d.cloudfront.net/js/mootools/mootools-1.3.1-yui-compressed.js"></script>
+<script type="text/javascript" src="./9gag_static/https@d24w6bsrhbeh9d.cloudfront.net/js/Libraries-v1.3.js"></script>
+<script type="text/javascript" src="./9gag_static/https@d24w6bsrhbeh9d.cloudfront.net/js/gag.min-v2.5.3.js"></script>
 
 </head>
 
@@ -100,7 +100,7 @@ $code_url = $o->getAuthorizeURL( WB_CALLBACK_URL );
 </div>
 
 <div id="fb-root"></div>
-<script src="./https@connect.facebook.net/en_US/all.js" type="text/javascript"></script>
+<script src="./9gag_static/https@connect.facebook.net/en_US/all.js" type="text/javascript"></script>
 
 <!-- Google Analytics -->
 <!--ipt type="text/javascript">
@@ -125,7 +125,7 @@ var _qevents = _qevents || [];
 
 (function() {
 var elem = document.createElement('script');
-elem.src = (document.location.protocol == "https:" ? "./https@secure/" : "./edge/") + ".quantserve.com/quant.js";
+elem.src = (document.location.protocol == "https:" ? "./9gag_static/https@secure/" : "./9gag_static/edge/") + ".quantserve.com/quant.js";
 elem.async = true;
 elem.type = "text/javascript";
 var scpt = document.getElementsByTagName('script')[0];
@@ -139,7 +139,7 @@ qacct:"p-f8Bn5MbvAQbXQ"
 
 <noscript>
 <div style="display:none;">
-<img src="./https@pixel.quantserve.com/pixel/p-f8Bn5MbvAQbXQ.gif" border="0" height="1" width="1" alt="Quantcast"/>
+<img src="./9gag_static/https@pixel.quantserve.com/pixel/p-f8Bn5MbvAQbXQ.gif" border="0" height="1" width="1" alt="Quantcast"/>
 </div>
 </noscript>
 <!-- End Quantcast tag -->
